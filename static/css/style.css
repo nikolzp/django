@@ -1,0 +1,45 @@
+
+.cl_h1{
+	color: #8B8B83;
+	margin-left: 40px;
+}
+
+.cl_h2{
+	color: #4A708B;
+}
+
+.cl_h3{
+	color: #4A708B;
+	margin-left: 50px;
+}
+
+.p_text{
+	margin-left: 70px;
+	margin-right: 80px;
+}
+
+.footer{
+	position: absolute;
+ 	text-align: center;
+}
+
+.f_size{
+	font-size: 110%;
+}
+
+#b_f{
+	font-size: 110%;
+	color: #6E7B8B;
+}
+
+.foot{
+	background-color: #FFE4E1;
+}
+
+p{
+	text-indent: 20px;
+}
+
+h1 {
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+   } 
