@@ -15,3 +15,14 @@ class Student(models.Model):
 		return self.name+" "+self.surname
 
 		
+class CourseApplicetion(models.Model):
+	name = models.CharField(max_length=255)
+	email = models.EmailField()
+	courses = models.ForeignKey(Course)
+	package = models.CharField(max_length=16)
+	new_subscribe = models.BooleanField()
+	comment = models.TextField()
+	is_active = models.BooleanField(default = True)
+	
+	def __unicode__(self):
+		return self.name

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from students.models import Student
+from students.models import Student, CourseApplicetion
 
 
 class StudentAdmin(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class StudentAdmin(admin.ModelAdmin):
 				 (None, {'fields':['courses']})]
 
 admin.site.register(Student, StudentAdmin)
+admin.site.register(CourseApplicetion)
