@@ -19,7 +19,7 @@ class CourseApplicetion(models.Model):
 	name = models.CharField(max_length=255)
 	email = models.EmailField()
 	courses = models.ForeignKey(Course)
-	package = models.CharField(max_length=16)
+	package = models.CharField(max_length=16, choices=(('standeart', 'Standeart'), ('gold', 'Gold'), ('vip', 'Vip')))
 	new_subscribe = models.BooleanField()
 	comment = models.TextField()
 	is_active = models.BooleanField(default = True)
