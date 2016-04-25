@@ -3,6 +3,11 @@ from django.shortcuts import render, redirect
 from students.models import Student
 from forms import StudentModelForm
 from django.contrib import messages
+from django.views.generic.detail import DetailView
+
+
+class StudentDetailView(DetailView):
+	model = Student
 
 
 def list_view(request):
@@ -16,6 +21,8 @@ def list_view(request):
 def detail(request, student_id):
 	det = Student.objects.get(id=student_id)
 	return render(request, 'students/detail.html', {'det':det})
+
+
 
 def create(request):
 	if request.method == 'POST':
