@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+
+{% load staticfiles %}
+
+
+{% block title %}Remove student{% endblock title %}
+
+
+{% block naw_class_students %}active{% endblock %}
+
+
+{% block content %}
+<div class="container">
+
+ <form method="post">
+ {% csrf_token %}
+ <p> Course {{remove_cours.name}} has been deleted.</p>
+ <input type="submit" value = "Delete">
+ </form>
+</div>
+{% endblock content %}

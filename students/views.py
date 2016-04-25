@@ -1,25 +1,8 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from students.models import Student, CourseApplicetion
-from courses.models import Course
-from django import forms
+from students.models import Student
+from forms import StudentModelForm
 from django.contrib import messages
-
-class StudentApplyForm(forms.Form):
-	name = forms.CharField(max_length=100)
-	email = forms.EmailField(label="Mail", help_text='personal mail')
-	package = forms.ChoiceField(choices=(('standeart', 'Standeart'), ('gold', 'Gold'), ('vip', 'Vip')), 
-		widget=forms.RadioSelect, initial='standeart')
-	new_subscribe = forms.BooleanField(required=False)
-
-
-class CourseApplicationForm(forms.ModelForm):
-	class Meta:
-		model = CourseApplicetion
-		exclude = ['comment', 'is_active']
-		widgets = {'package':forms.RadioSelect}
-		labels = {'email':"Mail"}
-		help_texts = {'email': "Enter your Mail"}
-
 
 
 def list_view(request):
@@ -34,35 +17,34 @@ def detail(request, student_id):
 	det = Student.objects.get(id=student_id)
 	return render(request, 'students/detail.html', {'det':det})
 
-def apply_to_course(request):
+def create(request):
 	if request.method == 'POST':
-		form = CourseApplicationForm(request.POST)
+		form = StudentModelForm(request.POST)
 		if form.is_valid():
-			application = form.save()
-			messages.success(request, 'SAVED')
-			return redirect('students:course-applicantion')
+			create_st = form.save()
+			messages.success(request, "Student %s %s has been successfully added." % (create_st.name, create_st.surname))
+			return redirect('students:list_view')
 	else:
-		form = CourseApplicationForm(initial={'news_subscribe':True})
+		form = StudentModelForm()
+	return render(request, 'students/add.html', {'form':form})
 
-	return render(request, 'students/apply.html', {'form':form})
-
-def edit_application(request, pk):
-	application = CourseApplicetion.objects.get(id=pk)
+def edit(request, student_id):
+	edit_st = Student.objects.get(id=student_id)
 	if request.method == 'POST':
-		form = CourseApplicationForm(request.POST, instance=application)
-		if forom.is_valid():
-			application = form.save()
-			messages.success(request, 'SAVED')
-			return redirect('students:course-applicantion')
+		form = StudentModelForm(request.POST, instance=edit_st)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Данные изменены')
+			return redirect('students:edit', student_id)
 	else:
-		form = CourseApplicationForm(instance=application)
+		form = StudentModelForm(instance=edit_st)
+	return render(request, 'students/edit.html', {'form':form})
 
-	return render(request, 'students/edit_application.html', {'form':form})
 
-def delete_application(request, pk):
-	application = CourseApplicetion.objects.get(id=pk)
+def remove(request, student_id):
+	remov = Student.objects.get(id=student_id)
 	if request.method == 'POST':
-		application.delete()
-		messages.success(request, 'Deletetd')
-		return redirect('students:course-applicantion')
-	return render(request, 'students/delete_application.html')
+		remov.delete()
+		messages.success(request, "Info on %s %s has been successfully deleted." % (remov.name, remov.surname))
+		return redirect('students:list_view')
+	return render(request, 'students/remove.html', {'remov':remov})
