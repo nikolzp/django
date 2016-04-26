@@ -4,10 +4,27 @@ from students.models import Student
 from forms import StudentModelForm
 from django.contrib import messages
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 
 
 class StudentDetailView(DetailView):
 	model = Student
+
+class StudentListView(ListView):
+	model = Student
+	template_name = "students/list.html"
+	context_object_name = "deskr"
+
+	def get_queryset(self):
+		course_id = self.request.GET.get('course_id', None)
+		if course_id:
+			students = Student.objects.filter(courses__id=course_id)
+		else:
+			students = Student.objects.all()
+		return students
+
+
+
 
 
 def list_view(request):
